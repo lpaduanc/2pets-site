@@ -1,0 +1,193 @@
+{
+    "common": {
+        "register": "Cadastre-se",
+        "login": "Entrar",
+        "menu": {
+            "home": "Início",
+            "services": "Serviços",
+            "professionals": "Para Profissionais",
+            "companies": "Para Empresas"
+        }
+    },
+    "home": {
+        "hero": {
+            "title": "O Ecossistema Completo para a Saúde do seu Pet",
+            "subtitle": "Conecte-se aos melhores veterinários, agende consultas e gerencie a saúde do seu pet em um só lugar."
+        }
+    },
+    "professionals": {
+        "hero": {
+            "title": "Chega de pagar por cada cliente",
+            "subtitle": "Veterinários: Conecte-se com tutores que JÁ estão procurando você. Pare de disputar atenção e comece a receber clientes."
+        },
+        "pain_points": {
+            "title": "A realidade que ninguém te conta",
+            "traditional": "Marketing Tradicional",
+            "traditional_desc": "R$ 1.500/mês em anúncios + 10h/semana criando conteúdo. Custo por cliente: R$ 750.",
+            "with_2pets": "Com a 2Pets",
+            "with_2pets_desc": "R$ 99/mês fixo. 0h/semana em marketing. Tutores te encontram quando precisam. Custo por cliente: R$ 10."
+        },
+        "benefits": {
+            "title": "Por que a 2Pets é diferente?",
+            "1": {
+                "title": "Pare de competir por atenção",
+                "desc": "Nas redes sociais você compete com memes. Na 2Pets, tutores vêm PROCURANDO veterinários."
+            },
+            "2": {
+                "title": "Sistema de Gestão Incluso",
+                "desc": "Agenda, Prontuário, Financeiro. Valor de mercado R$ 400, aqui é GRÁTIS."
+            },
+            "3": {
+                "title": "Clientes Qualificados",
+                "desc": "Tutores cadastram pets antes de procurar. Histórico médico disponível."
+            },
+            "4": {
+                "title": "Custo Previsível",
+                "desc": "Sem surpresas no cartão. ROI calculável e transparente."
+            }
+        },
+        "calculator": {
+            "title": "Calculadora de Economia",
+            "current_spend": "Seus gastos atuais (Ads + Gestão)",
+            "calculate": "Calcular Economia",
+            "result": "Sua economia anual com a 2Pets"
+        },
+        "plans": {
+            "title": "Planos e Preços",
+            "solo": {
+                "name": "Veterinário Solo",
+                "price": "99",
+                "features": [
+                    "Perfil na plataforma",
+                    "Sistema de gestão completo",
+                    "Até 50 atendimentos/mês"
+                ]
+            },
+            "clinic_small": {
+                "name": "Clínica Pequena",
+                "price": "199",
+                "features": [
+                    "Até 3 veterinários",
+                    "Sistema multi-usuário",
+                    "Até 150 atendimentos/mês"
+                ]
+            },
+            "clinic_large": {
+                "name": "Clínica Grande",
+                "price": "399",
+                "features": [
+                    "Veterinários ilimitados",
+                    "Atendimento ilimitado",
+                    "Suporte prioritário"
+                ]
+            }
+        }
+    },
+    "services": {
+        "hero": {
+            "title": "Tudo que seu pet precisa",
+            "subtitle": "De consultas veterinárias a banho e tosa. Encontre os melhores profissionais perto de você."
+        },
+        "categories": {
+            "consultations": {
+                "title": "Consultas",
+                "desc": "Clínicos gerais e especialistas prontos para atender."
+            },
+            "exams": {
+                "title": "Exames",
+                "desc": "Laboratórios e diagnóstico por imagem."
+            },
+            "vaccines": {
+                "title": "Vacinas",
+                "desc": "Mantenha a carteirinha do seu pet em dia."
+            },
+            "surgeries": {
+                "title": "Cirurgias",
+                "desc": "Centros cirúrgicos equipados e seguros."
+            },
+            "grooming": {
+                "title": "Estética",
+                "desc": "Banho, tosa e tratamentos estéticos."
+            },
+            "hotel": {
+                "title": "Hospedagem",
+                "desc": "Hotéis e creches para quando você viajar."
+            }
+        },
+        "cta": {
+            "title": "Pronto para agendar?",
+            "subtitle": "Cadastre-se agora e tenha acesso a todos esses serviços.",
+            "button": "Começar Agora"
+        }
+    },
+    "marketplace": {
+        "hero": {
+            "title": "Encontre tudo para seu pet",
+            "subtitle": "Produtos, serviços e ofertas exclusivas. Pesquise e economize."
+        },
+        "search": {
+            "placeholder": "O que seu pet precisa hoje?",
+            "button": "Buscar",
+            "simulated_results": "Resultados para"
+        },
+        "categories": {
+            "food": "Ração e Petiscos",
+            "toys": "Brinquedos",
+            "pharmacy": "Farmácia",
+            "hygiene": "Higiene e Limpeza"
+        },
+        "promo_card": {
+            "discount": "OFF",
+            "unlock": "Cadastre-se para desbloquear esta oferta"
+        }
+    },
+    "companies": {
+        "hero": {
+            "title": "Saúde Pet como Benefício Corporativo",
+            "subtitle": "Ofereça 2Pets aos seus colaboradores e aumente a satisfação e retenção de talentos."
+        },
+        "benefits": {
+            "title": "Por que oferecer 2Pets?",
+            "1": {
+                "title": "Retenção de Talentos",
+                "desc": "Benefícios diferenciados atraem e retêm os melhores profissionais."
+            },
+            "2": {
+                "title": "Bem-estar Completo",
+                "desc": "Cuidar do pet é cuidar da família do seu colaborador."
+            },
+            "3": {
+                "title": "Economia Real",
+                "desc": "Descontos exclusivos em consultas, exames e produtos."
+            },
+            "4": {
+                "title": "Gestão Simplificada",
+                "desc": "Plataforma fácil de usar e sem burocracia para o RH."
+            }
+        },
+        "cta": {
+            "title": "Leve a 2Pets para sua empresa",
+            "subtitle": "Fale com nossos consultores e monte um plano personalizado.",
+            "button": "Falar com Consultor"
+        }
+    },
+    "register": {
+        "title": "Crie sua conta na 2Pets",
+        "subtitle": "Escolha como você quer fazer parte do nosso ecossistema.",
+        "tutor": {
+            "title": "Sou Tutor",
+            "desc": "Quero cuidar da saúde do meu pet, agendar consultas e encontrar ofertas.",
+            "button": "Cadastrar como Tutor"
+        },
+        "professional": {
+            "title": "Sou Profissional",
+            "desc": "Quero divulgar meus serviços, gerenciar minha agenda e atrair clientes.",
+            "button": "Cadastrar como Profissional"
+        },
+        "company": {
+            "title": "Sou Empresa",
+            "desc": "Quero oferecer benefícios de saúde pet para meus colaboradores.",
+            "button": "Cadastrar Empresa"
+        }
+    }
+}
