@@ -11,6 +11,7 @@
         <router-link to="/marketplace" class="nav-link" :class="{ active: $route.path === '/marketplace' }">Marketplace</router-link>
         <router-link to="/professionals" class="nav-link" :class="{ active: $route.path === '/professionals' }">{{ $t('common.menu.professionals') }}</router-link>
         <router-link to="/companies" class="nav-link" :class="{ active: $route.path === '/companies' }">{{ $t('common.menu.companies') }}</router-link>
+        <router-link to="/pricing" class="nav-link" :class="{ active: $route.path === '/pricing' }">Planos</router-link>
         <router-link to="/ai-guardian" class="nav-link special-link">
           <span class="material-icons-outlined">smart_toy</span>
           AI Guardian
@@ -25,7 +26,7 @@
         <div class="lang-switcher" @click="toggleLang">
           {{ currentLang === 'pt' ? 'EN' : 'PT' }}
         </div>
-        <a href="http://localhost:9000/login" class="btn btn-outline btn-sm">{{ $t('common.login') }}</a>
+        <a href="http://localhost:9200/login" class="btn btn-outline btn-sm">{{ $t('common.login') }}</a>
         <router-link to="/register" class="btn btn-primary btn-sm">{{ $t('common.register') }}</router-link>
       </div>
     </div>

@@ -39,13 +39,13 @@
           <p class="section-subtitle">Encontre exatamente o que seu pet precisa</p>
         </div>
         <div class="services-grid">
-          <div class="service-card" v-for="(service, key) in services" :key="key" :style="{ animationDelay: `${services.indexOf(service) * 0.1}s` }">
+          <div class="service-card" v-for="(service, index) in services" :key="service" :style="{ animationDelay: `${index * 0.1}s` }">
             <div class="service-badge">Popular</div>
             <div class="icon-wrapper">
-              <span class="material-icons-outlined">{{ getIcon(key) }}</span>
+              <span class="material-icons-outlined">{{ getIcon(service) }}</span>
             </div>
-            <h3>{{ $t(`services.categories.${key}.title`) }}</h3>
-            <p>{{ $t(`services.categories.${key}.desc`) }}</p>
+            <h3>{{ $t(`services.categories.${service}.title`) }}</h3>
+            <p>{{ $t(`services.categories.${service}.desc`) }}</p>
             <div class="service-features">
               <div class="feature-item">
                 <span class="material-icons-outlined">check_circle</span>
