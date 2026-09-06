@@ -59,7 +59,7 @@ onMounted(async () => {
   }
 
   try {
-    await axios.post(`http://localhost:8000/api/verify-email/${token}`)
+    await axios.post(`${import.meta.env.VITE_API_BASE_URL}/verify-email/${token}`)
     success.value = true
   } catch (err) {
     success.value = false
@@ -115,12 +115,12 @@ const resendEmail = async () => {
   
   &.success {
     background: #dcfce7;
-    color: #10b981;
+    color: var(--success);
   }
   
   &.error {
     background: #fee2e2;
-    color: #ef4444;
+    color: var(--error);
   }
 }
 
@@ -151,7 +151,7 @@ p {
 .btn-primary {
   background: var(--primary);
   color: white;
-  &:hover { background: darken(#6366f1, 10%); }
+  &:hover { background: var(--primary-dark); }
 }
 
 .btn-outline {

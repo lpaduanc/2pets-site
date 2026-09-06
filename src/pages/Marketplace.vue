@@ -1,130 +1,175 @@
 <template>
   <div class="marketplace-page">
-    <!-- Hero Search Section -->
     <section class="search-hero">
       <div class="container">
-        <h1>{{ $t('marketplace.hero.title') }}</h1>
-        <p class="subtitle">{{ $t('marketplace.hero.subtitle') }}</p>
-        
+        <h1>Encontre profissionais pet perto de você</h1>
+        <p class="subtitle">Veterinários, clínicas, petshops e banho & tosa — filtrados pela sua região.</p>
+
         <div class="search-box">
-          <input 
-            type="text" 
-            v-model="searchQuery" 
-            :placeholder="$t('marketplace.search.placeholder')"
+          <input
+            type="text"
+            v-model="searchQuery"
+            placeholder="Buscar por nome, especialidade ou serviço"
             @keyup.enter="performSearch"
           />
-          <button @click="performSearch" class="btn btn-primary">
+          <button @click="performSearch" class="btn btn-primary" :disabled="loading">
             <span class="material-icons-outlined">search</span>
-            {{ $t('marketplace.search.button') }}
+            {{ loading ? 'Buscando...' : 'Buscar' }}
           </button>
         </div>
       </div>
     </section>
 
-    <!-- Trust Indicators -->
     <section class="trust-section">
       <div class="container">
         <div class="trust-grid">
           <div class="trust-item">
             <span class="material-icons-outlined">verified</span>
-            <p>Parceiros Verificados</p>
+            <p>CRMV verificado</p>
           </div>
           <div class="trust-item">
-            <span class="material-icons-outlined">savings</span>
-            <p>Melhores Descontos</p>
+            <span class="material-icons-outlined">location_on</span>
+            <p>Busca por proximidade</p>
           </div>
           <div class="trust-item">
-            <span class="material-icons-outlined">support_agent</span>
-            <p>Suporte 24/7</p>
+            <span class="material-icons-outlined">schedule</span>
+            <p>Agendamento online</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Categories / Results -->
     <section class="results-section">
       <div class="container">
-        <h2 v-if="showResults" class="results-title">
-          {{ $t('marketplace.search.simulated_results') }} "{{ lastQuery }}"
+        <h2 v-if="hasSearched && !loading" class="results-title">
+          <template v-if="professionals.length">
+            {{ professionals.length }} {{ professionals.length === 1 ? 'profissional encontrado' : 'profissionais encontrados' }}<template v-if="lastQuery"> para "{{ lastQuery }}"</template>
+          </template>
+          <template v-else>
+            Nenhum profissional encontrado{{ lastQuery ? ` para "${lastQuery}"` : '' }}.
+          </template>
         </h2>
-        
-        <div class="offers-grid">
-          <div class="offer-card" v-for="(item, index) in displayItems" :key="index">
+        <h2 v-else-if="!hasSearched" class="results-title">Profissionais em destaque</h2>
+
+        <div v-if="error" class="empty-state">
+          Não foi possível carregar os profissionais no momento. Tente novamente em instantes.
+        </div>
+
+        <div v-if="loading" class="empty-state">Carregando profissionais…</div>
+
+        <div v-else class="offers-grid">
+          <article
+            v-for="pro in professionals"
+            :key="pro.id"
+            class="offer-card professional-card"
+          >
             <div class="offer-image">
-              <span class="material-icons-outlined category-icon">{{ item.icon }}</span>
-              <div class="discount-badge">-{{ item.discount }}%</div>
+              <span v-if="pro.verified" class="verified-badge" title="CRMV verificado pela equipe 2pets">
+                <span class="material-icons-outlined">verified</span>
+              </span>
+              <span class="material-icons-outlined category-icon">{{ iconFor(pro.professional_type) }}</span>
             </div>
             <div class="offer-content">
-              <div class="category-tag">{{ item.category }}</div>
-              <h3>{{ item.title }}</h3>
-              <p class="price-row">
-                <span class="original-price">R$ {{ item.originalPrice }}</span>
-                <span class="final-price">R$ {{ item.finalPrice }}</span>
+              <div class="category-tag">{{ pro.professional_type_label || 'Profissional' }}</div>
+              <h3>{{ pro.name }}</h3>
+              <p class="meta-row">
+                <span class="material-icons-outlined">star</span>
+                {{ (pro.average_rating || 0).toFixed(1) }}
+                <span v-if="pro.reviews_count" class="reviews-count">({{ pro.reviews_count }})</span>
+                <span v-if="pro.city" class="city"> · {{ pro.city }}</span>
               </p>
+              <p v-if="pro.bio" class="bio">{{ truncate(pro.bio, 90) }}</p>
+
               <div class="lock-overlay">
                 <span class="material-icons-outlined">lock</span>
-                <p>{{ $t('marketplace.promo_card.unlock') }}</p>
-                <router-link to="/register" class="btn btn-primary btn-sm">{{ $t('common.register') }}</router-link>
+                <p>Veja o perfil completo de <strong>{{ pro.name }}</strong> e agende uma consulta.</p>
+                <router-link :to="`/register?from=pro&pro_id=${pro.id}`" class="btn btn-primary btn-sm">
+                  Criar conta grátis
+                </router-link>
               </div>
             </div>
-          </div>
+          </article>
         </div>
-      </div>
-    </section>
 
-    <!-- Partners Section -->
-    <section class="partners-section">
-      <div class="container">
-        <h2>Marcas Parceiras</h2>
-        <div class="partners-grid">
-          <div class="partner-logo">Royal Canin</div>
-          <div class="partner-logo">Petz</div>
-          <div class="partner-logo">Cobasi</div>
-          <div class="partner-logo">Zee.Dog</div>
-          <div class="partner-logo">Bravecto</div>
-        </div>
+        <p v-if="hasSearched && !loading && professionals.length" class="below-results">
+          Quer ver todos os detalhes, avaliações e disponibilidade?
+          <router-link to="/register">Crie sua conta em 1 minuto.</router-link>
+        </p>
       </div>
     </section>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 import { useHead } from '@unhead/vue'
-import { useI18n } from 'vue-i18n'
-
-const { t } = useI18n()
 
 useHead({
-  title: '2Pets Marketplace - Ofertas e Produtos',
+  title: 'Buscar profissionais pet — 2pets',
   meta: [
-    { name: 'description', content: 'Encontre as melhores ofertas em produtos e serviços para seu pet. Ração, brinquedos, farmácia e muito mais.' }
+    { name: 'description', content: 'Veterinários, clínicas e petshops perto de você. Verificados, bem avaliados e com agendamento online.' }
   ]
 })
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL
+
 const searchQuery = ref('')
 const lastQuery = ref('')
-const showResults = ref(false)
+const professionals = ref([])
+const loading = ref(false)
+const hasSearched = ref(false)
+const error = ref(false)
 
-const defaultItems = [
-  { title: 'Ração Premium 15kg', icon: 'restaurant', discount: 15, originalPrice: '289,90', finalPrice: '246,40', category: 'food' },
-  { title: 'Consulta Veterinária', icon: 'medical_services', discount: 20, originalPrice: '150,00', finalPrice: '120,00', category: 'services' },
-  { title: 'Banho e Tosa Completo', icon: 'content_cut', discount: 10, originalPrice: '80,00', finalPrice: '72,00', category: 'grooming' },
-  { title: 'Antipulgas Simparic', icon: 'medication', discount: 25, originalPrice: '120,00', finalPrice: '90,00', category: 'pharmacy' },
-  { title: 'Caminha Nuvem G', icon: 'bed', discount: 30, originalPrice: '199,90', finalPrice: '139,90', category: 'toys' },
-  { title: 'Brinquedo Interativo', icon: 'sports_baseball', discount: 15, originalPrice: '49,90', finalPrice: '42,40', category: 'toys' },
-]
-
-const displayItems = computed(() => {
-  return defaultItems
-})
-
-function performSearch() {
-  if (!searchQuery.value) return
-  lastQuery.value = searchQuery.value
-  showResults.value = true
-  // In a real app, we would filter. Here we just show the "results" title to simulate
+async function performSearch() {
+  const q = searchQuery.value.trim()
+  lastQuery.value = q
+  await fetchProfessionals({ q })
 }
+
+async function fetchProfessionals(params = {}) {
+  loading.value = true
+  error.value = false
+  try {
+    const { data } = await axios.get(`${API_BASE}/public/search`, {
+      params: { per_page: 9, ...params },
+    })
+    // SearchController returns a cursor-paginated collection — adapt both shapes.
+    professionals.value = data.data ?? data.items ?? data.results ?? []
+    hasSearched.value = true
+  } catch {
+    error.value = true
+    professionals.value = []
+  } finally {
+    loading.value = false
+  }
+}
+
+// Taxonomia canônica de `professional_type` (7 chaves) — deve espelhar
+// `2pets-app/src/pages/SearchPage.vue` e `constants/profileOptions.js`.
+const PROFESSIONAL_TYPE_ICONS = {
+  vet: 'medical_services',
+  clinic: 'local_hospital',
+  laboratory: 'biotech',
+  petshop: 'storefront',
+  pet_hotel: 'hotel',
+  grooming: 'content_cut',
+  training: 'sports',
+}
+
+function iconFor(type) {
+  return PROFESSIONAL_TYPE_ICONS[type] ?? 'pets'
+}
+
+function truncate(text, max) {
+  if (!text) return ''
+  return text.length > max ? text.slice(0, max - 1) + '…' : text
+}
+
+onMounted(() => {
+  // Show featured professionals on first load so the page isn't empty.
+  fetchProfessionals().then(() => (hasSearched.value = false))
+})
 </script>
 
 <style lang="scss" scoped>
@@ -308,6 +353,30 @@ function performSearch() {
           }
         }
         
+        .meta-row {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.95rem;
+          color: var(--text-light);
+          margin-bottom: 8px;
+
+          span.material-icons-outlined {
+            font-size: 18px;
+            color: var(--warning);
+          }
+
+          .reviews-count { color: var(--text-light); }
+          .city { color: var(--text-light); }
+        }
+
+        .bio {
+          font-size: 0.9rem;
+          color: var(--text-light);
+          line-height: 1.4;
+          margin-top: 6px;
+        }
+
         .lock-overlay {
           position: absolute;
           top: 0;
@@ -323,21 +392,58 @@ function performSearch() {
           transition: all 0.3s ease;
           padding: 20px;
           text-align: center;
-          
+
           span {
             font-size: 40px;
             color: var(--primary);
             margin-bottom: 15px;
           }
-          
+
           p {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-main);
             margin-bottom: 20px;
-            font-weight: 600;
+            font-weight: 500;
+
+            strong {
+              color: var(--primary);
+              font-weight: 700;
+            }
           }
         }
       }
+
+      .verified-badge {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: var(--success);
+        color: white;
+        padding: 6px;
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(var(--success-rgb), 0.3);
+        display: inline-flex;
+
+        span { font-size: 18px; }
+      }
+    }
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--text-light);
+  }
+
+  .below-results {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--text-light);
+
+    a {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: underline;
     }
   }
 }

@@ -84,7 +84,7 @@
           <!-- Individual Professionals -->
           <div class="business-card" @click="selectType('vet')">
             <span class="material-icons-outlined">medical_services</span>
-            <h3>Veterinário</h3>
+            <h3>Veterinário Volante</h3>
             <p class="card-subtitle">Atendimento individual</p>
           </div>
           <div class="business-card" @click="selectType('grooming')">
@@ -94,7 +94,7 @@
           </div>
           <div class="business-card" @click="selectType('training')">
             <span class="material-icons-outlined">school</span>
-            <h3>Adestrador</h3>
+            <h3>Adestramento</h3>
             <p class="card-subtitle">Treinamento individual</p>
           </div>
           
@@ -116,7 +116,7 @@
           </div>
           <div class="business-card" @click="selectType('pet_hotel')">
             <span class="material-icons-outlined">hotel</span>
-            <h3>Hotel/Creche</h3>
+            <h3>Creche e Hotel</h3>
             <p class="card-subtitle">Hospedagem para pets</p>
           </div>
         </div>
@@ -244,16 +244,19 @@ const selectType = (type) => {
   step.value = 3 // Go to registration form
 }
 
+// Taxonomia canônica de `professional_type` (7 chaves) + `tutor`/`company`,
+// que são `user_type` e não fazem parte dela. Deve espelhar
+// `2pets-app/src/pages/SearchPage.vue` e `constants/profileOptions.js`.
 const getTypeName = (type) => {
   const types = {
     tutor: 'Tutor',
-    vet: 'Veterinário',
+    vet: 'Veterinário Volante',
     clinic: 'Clínica Veterinária',
     laboratory: 'Laboratório',
     petshop: 'Pet Shop',
-    pet_hotel: 'Hotel/Creche',
+    pet_hotel: 'Creche e Hotel',
     grooming: 'Banho e Tosa',
-    training: 'Adestrador',
+    training: 'Adestramento',
     company: 'Empresa'
   }
   return types[type] || type
@@ -281,7 +284,7 @@ const register = async () => {
     // For companies, we send a different request (could be to a different endpoint)
     if (form.user_type === 'company') {
       // Company registration - just sends interest, no account creation yet
-      const response = await axios.post('http://localhost:8000/api/register', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, {
         name: form.name,
         email: form.email,
         phone: form.phone,
@@ -298,7 +301,7 @@ const register = async () => {
       successMessage.value = 'Sua solicitação foi enviada! Nossa equipe entrará em contato em até 24 horas para apresentar nossa proposta e concluir o cadastro.'
     } else {
       // Regular tutor/professional registration
-      const response = await axios.post('http://localhost:8000/api/register', {
+      const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/register`, {
         name: form.name,
         email: form.email,
         phone: form.phone,
@@ -465,7 +468,7 @@ const register = async () => {
     .btn-primary {
       background-color: var(--primary);
       color: white;
-      &:hover { background-color: darken(#6366f1, 10%); }
+      &:hover { background-color: var(--primary-dark); }
     }
 
     .btn-outline {
@@ -484,19 +487,19 @@ const register = async () => {
     }
     
     &.professional {
-      border-top: 5px solid #8b5cf6; 
-      .icon-wrapper { color: #8b5cf6; }
-      &:hover { border-color: #8b5cf6; .icon-wrapper { background: #8b5cf6; color: white; } }
-      .btn-outline { border-color: #8b5cf6; color: #8b5cf6; &:hover { background: #8b5cf6; color: white; } }
-      .card-features li .material-icons-outlined { color: #8b5cf6; }
+      border-top: 5px solid #49BEFF; 
+      .icon-wrapper { color: #49BEFF; }
+      &:hover { border-color: #49BEFF; .icon-wrapper { background: #49BEFF; color: white; } }
+      .btn-outline { border-color: #49BEFF; color: #49BEFF; &:hover { background: #49BEFF; color: white; } }
+      .card-features li .material-icons-outlined { color: #49BEFF; }
     }
     
     &.company {
-      border-top: 5px solid #10b981;
-      .icon-wrapper { color: #10b981; }
-      &:hover { border-color: #10b981; .icon-wrapper { background: #10b981; color: white; } }
-      .btn-outline { border-color: #10b981; color: #10b981; &:hover { background: #10b981; color: white; } }
-      .card-features li .material-icons-outlined { color: #10b981; }
+      border-top: 5px solid #13DEB9;
+      .icon-wrapper { color: #13DEB9; }
+      &:hover { border-color: #13DEB9; .icon-wrapper { background: #13DEB9; color: white; } }
+      .btn-outline { border-color: #13DEB9; color: #13DEB9; &:hover { background: #13DEB9; color: white; } }
+      .card-features li .material-icons-outlined { color: #13DEB9; }
     }
   }
 }
@@ -634,7 +637,7 @@ const register = async () => {
       transition: all 0.3s ease;
       
       &:hover:not(:disabled) {
-        background-color: darken(#6366f1, 10%);
+        background-color: var(--primary-dark);
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
       }
@@ -705,7 +708,7 @@ const register = async () => {
     width: 80px;
     height: 80px;
     background: #dcfce7;
-    color: #10b981;
+    color: #13DEB9;
     border-radius: 50%;
     display: flex;
     align-items: center;

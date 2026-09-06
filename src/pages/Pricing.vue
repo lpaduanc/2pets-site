@@ -161,6 +161,16 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useHead } from '@unhead/vue'
+
+useHead({
+  title: 'Planos e preços',
+  meta: [
+    { name: 'description', content: 'Planos do 2pets para tutores e profissionais pet. Freemium para tutor; planos com trial para veterinários, clínicas e petshops.' },
+    { property: 'og:title', content: 'Planos e preços — 2pets' },
+    { property: 'og:description', content: 'Freemium para tutor + planos para profissionais com trial de 7 dias.' },
+  ],
+})
 
 const activeTab = ref('tutors')
 const openFaq = ref(null)

@@ -112,7 +112,7 @@ onUnmounted(() => {
       &.special-link {
         color: var(--primary);
         font-weight: 600;
-        background: rgba(99, 102, 241, 0.1);
+        background: rgba(var(--primary-rgb), 0.1);
         padding: 4px 10px;
         border-radius: 20px;
         transition: all 0.3s ease;
@@ -129,11 +129,11 @@ onUnmounted(() => {
         }
 
         &.business {
-          background: rgba(124, 58, 237, 0.1);
-          color: #7c3aed;
-          
+          background: rgba(var(--secondary-rgb), 0.1);
+          color: var(--secondary);
+
           &:hover {
-            background: #7c3aed;
+            background: var(--secondary);
             color: white;
           }
         }

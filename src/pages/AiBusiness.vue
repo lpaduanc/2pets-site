@@ -156,13 +156,13 @@ useHead({
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1.5rem;
-    background: rgba(99, 102, 241, 0.1);
-    border: 1px solid rgba(99, 102, 241, 0.2);
+    background: rgba(var(--primary-rgb), 0.1);
+    border: 1px solid rgba(var(--primary-rgb), 0.2);
     border-radius: var(--radius-full);
     font-weight: 700;
     margin-bottom: 2rem;
     backdrop-filter: blur(10px);
-    color: #818cf8;
+    color: #ECF2FF;
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
   
@@ -185,16 +185,16 @@ useHead({
   }
 
   .btn-secondary {
-    background: #6366f1;
+    background: #5D87FF;
     color: white;
     border: none;
     font-weight: 700;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.3);
     
     &:hover {
-      background: #4f46e5;
+      background: #4570EA;
       transform: translateY(-2px);
-      box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+      box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.5);
     }
   }
 }
@@ -226,7 +226,7 @@ useHead({
       left: 0;
       width: 100%;
       height: 4px;
-      background: #6366f1;
+      background: #5D87FF;
       transform: scaleX(0);
       transition: transform 0.4s ease;
       transform-origin: left;
@@ -235,14 +235,14 @@ useHead({
     &:hover {
       transform: translateY(-10px);
       box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
-      border-color: #6366f1;
+      border-color: #5D87FF;
       
       &::after {
         transform: scaleX(1);
       }
       
       .icon-wrapper {
-        background: #6366f1;
+        background: #5D87FF;
         transform: scale(1.1);
         
         span {
@@ -264,7 +264,7 @@ useHead({
       
       span {
         font-size: 44px;
-        color: #6366f1;
+        color: #5D87FF;
         transition: color 0.4s ease;
       }
     }
@@ -328,7 +328,7 @@ useHead({
         font-size: 1.1rem;
         
         span {
-          color: #6366f1;
+          color: #5D87FF;
           font-size: 1.5rem;
         }
       }
@@ -353,7 +353,7 @@ useHead({
       .avatar {
         width: 40px;
         height: 40px;
-        background: #6366f1;
+        background: #5D87FF;
         border-radius: 8px;
         display: flex;
         align-items: center;
@@ -405,7 +405,7 @@ useHead({
         box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         
         strong {
-          color: #6366f1;
+          color: #5D87FF;
           display: block;
           margin-bottom: 0.5rem;
         }
@@ -428,8 +428,8 @@ useHead({
         outline: none;
         
         &:focus {
-          border-color: #6366f1;
-          box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+          border-color: #5D87FF;
+          box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
         }
       }
       

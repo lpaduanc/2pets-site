@@ -106,7 +106,7 @@ useHead({
 
 .hero-section {
   padding: 160px 0 120px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #5D87FF 0%, #49BEFF 100%);
   color: white;
   text-align: center;
   position: relative;
@@ -174,7 +174,7 @@ useHead({
 
   .btn-primary {
     background: white;
-    color: #6366f1;
+    color: #5D87FF;
     font-weight: 800;
     border: none;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
@@ -215,14 +215,14 @@ useHead({
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      background: linear-gradient(90deg, #5D87FF, #49BEFF);
       opacity: 0;
       transition: opacity 0.3s ease;
     }
     
     &:hover {
       transform: translateY(-15px);
-      box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15);
+      box-shadow: 0 20px 40px rgba(var(--primary-rgb), 0.15);
       
       &::before {
         opacity: 1;
@@ -230,7 +230,7 @@ useHead({
       
       .icon-wrapper {
         transform: scale(1.1) rotate(5deg);
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        background: linear-gradient(135deg, #5D87FF, #49BEFF);
         
         span {
           color: white;
@@ -251,7 +251,7 @@ useHead({
       
       span {
         font-size: 44px;
-        color: #6366f1;
+        color: #5D87FF;
         transition: color 0.4s ease;
       }
     }
@@ -280,7 +280,7 @@ useHead({
     font-size: 3.5rem;
     font-weight: 900;
     margin-bottom: 4rem;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    background: linear-gradient(135deg, #5D87FF 0%, #49BEFF 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -306,7 +306,7 @@ useHead({
       .avatar {
         width: 40px;
         height: 40px;
-        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        background: linear-gradient(135deg, #5D87FF, #49BEFF);
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -322,7 +322,7 @@ useHead({
         }
         span {
           font-size: 0.85rem;
-          color: #10b981;
+          color: #13DEB9;
           display: flex;
           align-items: center;
           gap: 4px;
@@ -331,7 +331,7 @@ useHead({
             content: '';
             width: 6px;
             height: 6px;
-            background: #10b981;
+            background: #13DEB9;
             border-radius: 50%;
           }
         }
@@ -354,11 +354,11 @@ useHead({
       font-size: 1.05rem;
       
       &.user {
-        background: #6366f1;
+        background: #5D87FF;
         color: white;
         margin-left: auto;
         border-bottom-right-radius: 4px;
-        box-shadow: 0 4px 6px rgba(99, 102, 241, 0.2);
+        box-shadow: 0 4px 6px rgba(var(--primary-rgb), 0.2);
       }
       
       &.ai {
@@ -370,7 +370,7 @@ useHead({
         border: 1px solid #e2e8f0;
         
         strong {
-          color: #6366f1;
+          color: #5D87FF;
         }
       }
     }
@@ -391,7 +391,7 @@ useHead({
         outline: none;
         
         &:focus {
-          border-color: #6366f1;
+          border-color: #5D87FF;
           background: white;
         }
       }
@@ -400,7 +400,7 @@ useHead({
         width: 50px;
         height: 50px;
         border-radius: 12px;
-        background: #6366f1;
+        background: #5D87FF;
         color: white;
         border: none;
         display: flex;
@@ -410,7 +410,7 @@ useHead({
         transition: all 0.2s;
         
         &:hover {
-          background: #4f46e5;
+          background: #4570EA;
         }
       }
     }

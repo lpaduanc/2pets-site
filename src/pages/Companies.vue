@@ -409,7 +409,7 @@ const implementationSteps = ref([
 
 .hero-section {
   padding: 140px 0 100px;
-  background: linear-gradient(135deg, #064e3b 0%, #047857 50%, #059669 100%);
+  background: linear-gradient(135deg, #02B3A9 0%, #0E9C82 50%, #13DEB9 100%);
   color: white;
   text-align: center;
   position: relative;

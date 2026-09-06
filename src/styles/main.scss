@@ -1,33 +1,42 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
 :root {
-    /* Primary Colors - More vibrant and modern */
-    --primary: #6366f1;
-    --primary-dark: #4f46e5;
-    --primary-light: #818cf8;
-    --secondary: #ec4899;
-    --accent: #8b5cf6;
-    --success: #10b981;
-    --warning: #f59e0b;
-    --error: #ef4444;
+    /* Primary Colors - 2pets official palette (sincronizado com 2pets-app/src/css/design-system.scss) */
+    --primary: #5D87FF;
+    --primary-dark: #4570EA;
+    --primary-light: #ECF2FF;
+    --secondary: #49BEFF;
+    --accent: #00C2E0;
+    --success: #13DEB9;
+    --warning: #FFAE1F;
+    --error: #FA896B;
+    --info: #539BFF;
 
-    /* Text Colors */
-    --text-main: #0f172a;
-    --text-secondary: #475569;
-    --text-light: #64748b;
-    --text-muted: #94a3b8;
+    /* RGB tuples (para uso com rgba(var(--primary-rgb), alpha)) */
+    --primary-rgb: 93, 135, 255;
+    --secondary-rgb: 73, 190, 255;
+    --accent-rgb: 0, 194, 224;
+    --success-rgb: 19, 222, 185;
+    --warning-rgb: 255, 174, 31;
+    --error-rgb: 250, 137, 107;
 
-    /* Background Colors */
+    /* Text Colors - alinhados com app */
+    --text-main: #2A3547;
+    --text-secondary: #5A6A85;
+    --text-light: #7C8FAC;
+    --text-muted: #A6B7D4;
+
+    /* Background Colors - alinhados com app */
     --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-tertiary: #f1f5f9;
+    --bg-secondary: #F6F9FC;
+    --bg-tertiary: #F3F6F9;
 
-    /* Gradients */
-    --gradient-main: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    --gradient-warm: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);
-    --gradient-cool: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
-    --gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    /* Gradients - derivados da paleta oficial */
+    --gradient-main: linear-gradient(135deg, #5D87FF 0%, #4570EA 100%);
+    --gradient-warm: linear-gradient(135deg, #FFAE1F 0%, #FA896B 100%);
+    --gradient-cool: linear-gradient(135deg, #00C2E0 0%, #49BEFF 100%);
+    --gradient-success: linear-gradient(135deg, #13DEB9 0%, #02B3A9 100%);
 
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -83,7 +92,7 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Outfit', 'Inter', sans-serif;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
     font-weight: 700;
     line-height: 1.2;
     color: var(--text-main);
@@ -183,11 +192,11 @@ img {
     }
 
     &.btn-ghost {
-        background: rgba(99, 102, 241, 0.1);
+        background: rgba(var(--primary-rgb), 0.1);
         color: var(--primary);
 
         &:hover {
-            background: rgba(99, 102, 241, 0.2);
+            background: rgba(var(--primary-rgb), 0.2);
         }
     }
 
