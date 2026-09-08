@@ -598,7 +598,7 @@ const testimonials = ref([
 .calculator-section {
   background: var(--primary);
   padding: 100px 0;
-  color: white;
+  color: var(--primary-contrast);
   
   .calculator-wrapper {
     max-width: 700px;

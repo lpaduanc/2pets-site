@@ -100,13 +100,15 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/gradients';
+
 .ai-guardian-page {
   padding-bottom: 0;
 }
 
 .hero-section {
   padding: 160px 0 120px;
-  background: linear-gradient(135deg, #5D87FF 0%, #49BEFF 100%);
+  @include gradient-oklab(135deg, var(--primary) 0%, var(--secondary) 100%);
   color: white;
   text-align: center;
   position: relative;
@@ -174,7 +176,7 @@ useHead({
 
   .btn-primary {
     background: white;
-    color: #5D87FF;
+    color: var(--primary);
     font-weight: 800;
     border: none;
     box-shadow: 0 10px 25px rgba(0,0,0,0.2);
@@ -215,7 +217,7 @@ useHead({
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, #5D87FF, #49BEFF);
+      @include gradient-oklab(90deg, var(--primary), var(--secondary));
       opacity: 0;
       transition: opacity 0.3s ease;
     }
@@ -230,7 +232,7 @@ useHead({
       
       .icon-wrapper {
         transform: scale(1.1) rotate(5deg);
-        background: linear-gradient(135deg, #5D87FF, #49BEFF);
+        @include gradient-oklab(135deg, var(--primary), var(--secondary));
         
         span {
           color: white;
@@ -251,7 +253,7 @@ useHead({
       
       span {
         font-size: 44px;
-        color: #5D87FF;
+        color: var(--primary);
         transition: color 0.4s ease;
       }
     }
@@ -280,7 +282,7 @@ useHead({
     font-size: 3.5rem;
     font-weight: 900;
     margin-bottom: 4rem;
-    background: linear-gradient(135deg, #5D87FF 0%, #49BEFF 100%);
+    @include gradient-oklab(135deg, var(--primary) 0%, var(--secondary) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -306,7 +308,7 @@ useHead({
       .avatar {
         width: 40px;
         height: 40px;
-        background: linear-gradient(135deg, #5D87FF, #49BEFF);
+        @include gradient-oklab(135deg, var(--primary), var(--secondary));
         border-radius: 50%;
         display: flex;
         align-items: center;
@@ -322,7 +324,7 @@ useHead({
         }
         span {
           font-size: 0.85rem;
-          color: #13DEB9;
+          color: var(--success-dark);
           display: flex;
           align-items: center;
           gap: 4px;
@@ -331,7 +333,7 @@ useHead({
             content: '';
             width: 6px;
             height: 6px;
-            background: #13DEB9;
+            background: var(--success);
             border-radius: 50%;
           }
         }
@@ -354,8 +356,8 @@ useHead({
       font-size: 1.05rem;
       
       &.user {
-        background: #5D87FF;
-        color: white;
+        background: var(--primary);
+        color: var(--primary-contrast);
         margin-left: auto;
         border-bottom-right-radius: 4px;
         box-shadow: 0 4px 6px rgba(var(--primary-rgb), 0.2);
@@ -370,7 +372,7 @@ useHead({
         border: 1px solid #e2e8f0;
         
         strong {
-          color: #5D87FF;
+          color: var(--primary);
         }
       }
     }
@@ -391,7 +393,7 @@ useHead({
         outline: none;
         
         &:focus {
-          border-color: #5D87FF;
+          border-color: var(--primary);
           background: white;
         }
       }
@@ -400,8 +402,8 @@ useHead({
         width: 50px;
         height: 50px;
         border-radius: 12px;
-        background: #5D87FF;
-        color: white;
+        background: var(--primary);
+        color: var(--primary-contrast);
         border: none;
         display: flex;
         align-items: center;
@@ -410,7 +412,7 @@ useHead({
         transition: all 0.2s;
         
         &:hover {
-          background: #4570EA;
+          background: var(--primary-dark);
         }
       }
     }

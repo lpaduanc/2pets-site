@@ -394,7 +394,7 @@ const register = async () => {
       
       .icon-wrapper {
         background: var(--primary);
-        color: white;
+        color: var(--primary-contrast);
         transform: scale(1.1);
       }
     }
@@ -467,7 +467,7 @@ const register = async () => {
     
     .btn-primary {
       background-color: var(--primary);
-      color: white;
+      color: var(--primary-contrast);
       &:hover { background-color: var(--primary-dark); }
     }
 
@@ -478,7 +478,7 @@ const register = async () => {
       
       &:hover {
         background: var(--primary);
-        color: white;
+        color: var(--primary-contrast);
       }
     }
     
@@ -487,19 +487,19 @@ const register = async () => {
     }
     
     &.professional {
-      border-top: 5px solid #49BEFF; 
-      .icon-wrapper { color: #49BEFF; }
-      &:hover { border-color: #49BEFF; .icon-wrapper { background: #49BEFF; color: white; } }
-      .btn-outline { border-color: #49BEFF; color: #49BEFF; &:hover { background: #49BEFF; color: white; } }
-      .card-features li .material-icons-outlined { color: #49BEFF; }
+      border-top: 5px solid var(--secondary); 
+      .icon-wrapper { color: var(--secondary); }
+      &:hover { border-color: var(--secondary); .icon-wrapper { background: var(--secondary); color: var(--secondary-contrast); } }
+      .btn-outline { border-color: var(--secondary); color: var(--secondary-dark); &:hover { background: var(--secondary); color: var(--secondary-contrast); } }
+      .card-features li .material-icons-outlined { color: var(--secondary); }
     }
     
     &.company {
-      border-top: 5px solid #13DEB9;
-      .icon-wrapper { color: #13DEB9; }
-      &:hover { border-color: #13DEB9; .icon-wrapper { background: #13DEB9; color: white; } }
-      .btn-outline { border-color: #13DEB9; color: #13DEB9; &:hover { background: #13DEB9; color: white; } }
-      .card-features li .material-icons-outlined { color: #13DEB9; }
+      border-top: 5px solid var(--success);
+      .icon-wrapper { color: var(--success); }
+      &:hover { border-color: var(--success); .icon-wrapper { background: var(--success); color: var(--success-contrast); } }
+      .btn-outline { border-color: var(--success); color: var(--success-dark); &:hover { background: var(--success); color: var(--success-contrast); } }
+      .card-features li .material-icons-outlined { color: var(--success); }
     }
   }
 }
@@ -627,7 +627,7 @@ const register = async () => {
       width: 100%;
       padding: 15px;
       background: var(--primary);
-      color: white;
+      color: var(--primary-contrast);
       border: none;
       border-radius: 12px;
       font-size: 1rem;
@@ -708,7 +708,7 @@ const register = async () => {
     width: 80px;
     height: 80px;
     background: #dcfce7;
-    color: #13DEB9;
+    color: var(--success-dark);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -735,7 +735,7 @@ const register = async () => {
     display: inline-block;
     padding: 12px 30px;
     background: var(--primary);
-    color: white;
+    color: var(--primary-contrast);
     text-decoration: none;
     border-radius: 8px;
     font-weight: 700;

@@ -366,6 +366,8 @@ const implementationSteps = ref([
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/gradients';
+
 .companies-page {
   padding-bottom: 0;
 }
@@ -409,7 +411,7 @@ const implementationSteps = ref([
 
 .hero-section {
   padding: 140px 0 100px;
-  background: linear-gradient(135deg, #02B3A9 0%, #0E9C82 50%, #13DEB9 100%);
+  @include gradient-oklab(135deg, var(--success-dark) 0%, var(--success) 100%);
   color: white;
   text-align: center;
   position: relative;

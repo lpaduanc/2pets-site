@@ -150,7 +150,7 @@ p {
 
 .btn-primary {
   background: var(--primary);
-  color: white;
+  color: var(--primary-contrast);
   &:hover { background: var(--primary-dark); }
 }
 
@@ -158,7 +158,7 @@ p {
   background: transparent;
   border: 2px solid var(--primary);
   color: var(--primary);
-  &:hover { background: var(--primary); color: white; }
+  &:hover { background: var(--primary); color: var(--primary-contrast); }
 }
 
 .spinner {

@@ -227,8 +227,8 @@ const faqs = [
 .section-badge {
   display: inline-block;
   padding: 6px 16px;
-  background: rgba(93, 135, 255, 0.1);
-  color: #5D87FF;
+  background: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
   border-radius: 20px;
   font-size: 0.85rem;
   font-weight: 600;
@@ -309,7 +309,7 @@ const faqs = [
 
   &.featured {
     border-color: var(--primary);
-    box-shadow: 0 8px 30px rgba(93, 135, 255, 0.2);
+    box-shadow: 0 8px 30px rgba(var(--primary-rgb), 0.2);
   }
 
   .plan-badge {
@@ -318,7 +318,7 @@ const faqs = [
     left: 50%;
     transform: translateX(-50%);
     background: var(--primary);
-    color: white;
+    color: var(--primary-contrast);
     padding: 4px 16px;
     border-radius: 20px;
     font-size: 0.8rem;
@@ -377,7 +377,7 @@ const faqs = [
     color: var(--text-main);
 
     .check {
-      color: #13DEB9;
+      color: var(--success);
       font-size: 20px;
     }
 
@@ -412,11 +412,11 @@ const faqs = [
 
 .btn-primary {
   background: var(--primary);
-  color: white;
+  color: var(--primary-contrast);
 
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(93, 135, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.3);
   }
 }
 

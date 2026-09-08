@@ -120,7 +120,7 @@ onUnmounted(() => {
 
         &:hover {
           background: var(--primary);
-          color: white;
+          color: var(--primary-contrast);
           transform: translateY(-2px);
         }
 
@@ -134,7 +134,7 @@ onUnmounted(() => {
 
           &:hover {
             background: var(--secondary);
-            color: white;
+            color: var(--secondary-contrast);
           }
         }
       }

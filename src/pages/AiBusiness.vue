@@ -122,6 +122,8 @@ useHead({
 </script>
 
 <style lang="scss" scoped>
+@import '../styles/gradients';
+
 .ai-business-page {
   padding-bottom: 0;
 }
@@ -162,7 +164,7 @@ useHead({
     font-weight: 700;
     margin-bottom: 2rem;
     backdrop-filter: blur(10px);
-    color: #ECF2FF;
+    color: var(--primary-light);
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
   
@@ -171,7 +173,9 @@ useHead({
     font-weight: 900;
     margin-bottom: 1.5rem;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+    // Hex fora da paleta (dívida de DS pré-existente, preservada de propósito): esta
+    // seção é um hero escuro próprio. Aqui só a INTERPOLAÇÃO mudou para OKLab.
+    @include gradient-oklab(135deg, #ffffff 0%, #94a3b8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -185,14 +189,14 @@ useHead({
   }
 
   .btn-secondary {
-    background: #5D87FF;
-    color: white;
+    background: var(--primary);
+    color: var(--primary-contrast);
     border: none;
     font-weight: 700;
     box-shadow: 0 0 20px rgba(var(--primary-rgb), 0.3);
     
     &:hover {
-      background: #4570EA;
+      background: var(--primary-dark);
       transform: translateY(-2px);
       box-shadow: 0 0 30px rgba(var(--primary-rgb), 0.5);
     }
@@ -226,7 +230,7 @@ useHead({
       left: 0;
       width: 100%;
       height: 4px;
-      background: #5D87FF;
+      background: var(--primary);
       transform: scaleX(0);
       transition: transform 0.4s ease;
       transform-origin: left;
@@ -235,14 +239,14 @@ useHead({
     &:hover {
       transform: translateY(-10px);
       box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
-      border-color: #5D87FF;
+      border-color: var(--primary);
       
       &::after {
         transform: scaleX(1);
       }
       
       .icon-wrapper {
-        background: #5D87FF;
+        background: var(--primary);
         transform: scale(1.1);
         
         span {
@@ -264,7 +268,7 @@ useHead({
       
       span {
         font-size: 44px;
-        color: #5D87FF;
+        color: var(--primary);
         transition: color 0.4s ease;
       }
     }
@@ -328,7 +332,7 @@ useHead({
         font-size: 1.1rem;
         
         span {
-          color: #5D87FF;
+          color: var(--primary);
           font-size: 1.5rem;
         }
       }
@@ -353,12 +357,12 @@ useHead({
       .avatar {
         width: 40px;
         height: 40px;
-        background: #5D87FF;
+        background: var(--primary);
         border-radius: 8px;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: var(--primary-contrast);
       }
       
       .info {
@@ -405,7 +409,7 @@ useHead({
         box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         
         strong {
-          color: #5D87FF;
+          color: var(--primary);
           display: block;
           margin-bottom: 0.5rem;
         }
@@ -428,7 +432,7 @@ useHead({
         outline: none;
         
         &:focus {
-          border-color: #5D87FF;
+          border-color: var(--primary);
           box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
         }
       }

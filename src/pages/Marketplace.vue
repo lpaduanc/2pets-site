@@ -181,7 +181,7 @@ onMounted(() => {
   padding: 80px 0 60px;
   background: var(--primary);
   text-align: center;
-  color: white;
+  color: var(--primary-contrast);
   
   h1 {
     font-size: 3rem;
@@ -418,7 +418,7 @@ onMounted(() => {
         top: 15px;
         right: 15px;
         background: var(--success);
-        color: white;
+        color: var(--success-contrast);
         padding: 6px;
         border-radius: 50%;
         box-shadow: 0 4px 10px rgba(var(--success-rgb), 0.3);

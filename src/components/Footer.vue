@@ -105,7 +105,7 @@
 
           &:hover {
             background: var(--primary);
-            color: white;
+            color: var(--primary-contrast);
             transform: translateY(-2px);
           }
 

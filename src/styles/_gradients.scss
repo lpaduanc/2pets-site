@@ -1,0 +1,47 @@
+// ================================
+// DEGRADÊS DE MARCA — mixins (só declaração, zero CSS emitido)
+// ================================
+//
+// ⚠️ CÓPIA MANUAL do bloco "DEGRADÊS DE MARCA" de
+// 2pets-app/src/css/design-system.scss. O site não importa nada do app; nada avisa
+// quando os dois divergirem. Mexeu num, confira o outro na mesma tarefa.
+//
+// POR QUÊ: `linear-gradient(135deg, A, B)` interpola em sRGB, que não é
+// perceptualmente uniforme — o meio da rampa dessatura e acinzenta. `in oklab`
+// mantém a rampa saturada. As PONTAS não mudam: mesmos hex, mesmo contraste.
+//
+// COMO: a versão OKLab NUNCA é escrita sozinha. Suporte real é Chrome 111+,
+// Safari 16.2+, Firefox 113+; navegador mais antigo DESCARTA a declaração inteira
+// em vez de degradar — hero sem background nenhum, texto branco no branco.
+//
+// POR QUE PASSA POR CUSTOM PROPERTY em vez de duas declarações `background:`
+// (medido com esbuild 0.25.12, o minificador de CSS do Vite):
+//   - O esbuild REESCREVE `background: linear-gradient(… in oklab, …)` removendo o
+//     `in oklab` quando o `build.target` inclui Firefox ou Safari antigo — o default
+//     do Vite (`'modules'`) inclui. Ele faz isso inclusive dentro de um `@supports`.
+//     O único valor que ele não toca é o de uma custom property.
+//   - Duas declarações numa custom property também não serviriam: `--g` aceita
+//     qualquer token, as duas seriam guardadas, a segunda venceria, e
+//     `background: var(--g)` ficaria inválido em tempo de valor computado — sem
+//     background. `@supports` é o que faz a checagem de parse acontecer.
+
+$gradient-oklab-support: '(background: linear-gradient(in oklab, red, blue))';
+
+/// Define uma custom property de degradê com fallback sRGB + realce OKLab.
+@mixin gradient-oklab-token($name, $angle, $stops...) {
+    #{$name}: linear-gradient($angle, $stops...);
+
+    @supports #{$gradient-oklab-support} {
+        #{$name}: linear-gradient($angle in oklab, $stops...);
+    }
+}
+
+/// Aplica um degradê de marca como `background` do próprio seletor.
+@mixin gradient-oklab($angle, $stops...) {
+    --gradient-oklab: #{linear-gradient($angle, $stops...)};
+    background: var(--gradient-oklab);
+
+    @supports #{$gradient-oklab-support} {
+        --gradient-oklab: #{linear-gradient($angle in oklab, $stops...)};
+    }
+}

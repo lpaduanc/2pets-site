@@ -1,30 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
-:root {
-    /* Primary Colors - 2pets official palette (sincronizado com 2pets-app/src/css/design-system.scss) */
-    --primary: #5D87FF;
-    --primary-dark: #4570EA;
-    --primary-light: #ECF2FF;
-    --secondary: #49BEFF;
-    --accent: #00C2E0;
-    --success: #13DEB9;
-    --warning: #FFAE1F;
-    --error: #FA896B;
-    --info: #539BFF;
+// Mixins de degradê (só declaração, zero CSS emitido) — ver styles/_gradients.scss.
+@import './gradients';
 
-    /* RGB tuples (para uso com rgba(var(--primary-rgb), alpha)) */
-    --primary-rgb: 93, 135, 255;
-    --secondary-rgb: 73, 190, 255;
-    --accent-rgb: 0, 194, 224;
-    --success-rgb: 19, 222, 185;
-    --warning-rgb: 255, 174, 31;
-    --error-rgb: 250, 137, 107;
+:root {
+    /* Primary Colors - 2pets official palette
+       ⚠️ CÓPIA MANUAL de 2pets-app/src/css/design-system.scss. O site não importa os tokens
+       do app; nada avisa quando os dois divergem. Paleta atual: "Modernize Corrigida"
+       (docs/estudo-cores-2026-09-07.md, Opção 1) — toda troca precisa ser feita nos dois. */
+    --primary: #3D63E0;
+    --primary-dark: #2E4CB8;
+    --primary-light: #ECF2FF;
+    --secondary: #2E9BD6;
+    --secondary-dark: #026AA2;
+    --accent: #00A0BD;
+    --success: #0E9F6E;
+    --success-dark: #0B7A55;
+    --warning: #F5A524;
+    --error: #D92D20;
+    --info: #1570EF;
+
+    /* Pares "on-color": tinta de texto/ícone sobre o PREENCHIMENTO de cada cor.
+       ⚠️ CÓPIA MANUAL de --color-*-contrast em 2pets-app/src/css/theme-variables.scss.
+       Branco não serve para todos: sobre --warning dá 2,04:1 e sobre --success 3,39:1;
+       por isso os tons claros levam tinta escura. O site não tem tema escuro, então aqui
+       só existem os valores do tema claro — no app estes tokens invertem no dark. */
+    --primary-contrast: #ffffff;    /* 5,17:1 sobre --primary */
+    --secondary-contrast: #101B2E;  /* 5,56:1 sobre --secondary (branco: 3,10:1) */
+    --accent-contrast: #101B2E;     /* 5,55:1 sobre --accent    (branco: 3,11:1) */
+    --success-contrast: #101B2E;    /* 5,09:1 sobre --success   (branco: 3,39:1) */
+    --warning-contrast: #101B2E;    /* 8,45:1 sobre --warning   (branco: 2,04:1) */
+    --error-contrast: #ffffff;      /* 4,83:1 sobre --error */
+    --info-contrast: #ffffff;       /* 4,57:1 sobre --info */
+    /* Tinta sobre superfície escura fixa (gradiente institucional --gradient-main):
+       7,39:1 na ponta escura, 5,17:1 na clara. */
+    --on-dark-surface: #ffffff;
+
+    /* RGB tuples (para uso com rgba(var(--primary-rgb), alpha))
+       São literais em decimal: recalcular SEMPRE que o hex acima mudar, senão todo fundo
+       tonal continua na cor antiga sem nenhum aviso. */
+    --primary-rgb: 61, 99, 224;     /* #3D63E0 */
+    --secondary-rgb: 46, 155, 214;  /* #2E9BD6 */
+    --accent-rgb: 0, 160, 189;      /* #00A0BD */
+    --success-rgb: 14, 159, 110;    /* #0E9F6E */
+    --warning-rgb: 245, 165, 36;    /* #F5A524 */
+    --error-rgb: 217, 45, 32;       /* #D92D20 */
 
     /* Text Colors - alinhados com app */
     --text-main: #2A3547;
     --text-secondary: #5A6A85;
-    --text-light: #7C8FAC;
+    --text-light: #64748B;  /* era #7C8FAC (3,29:1) — 4,50:1 sobre --bg-secondary (AA) */
     --text-muted: #A6B7D4;
 
     /* Background Colors - alinhados com app */
@@ -32,11 +58,9 @@
     --bg-secondary: #F6F9FC;
     --bg-tertiary: #F3F6F9;
 
-    /* Gradients - derivados da paleta oficial */
-    --gradient-main: linear-gradient(135deg, #5D87FF 0%, #4570EA 100%);
-    --gradient-warm: linear-gradient(135deg, #FFAE1F 0%, #FA896B 100%);
-    --gradient-cool: linear-gradient(135deg, #00C2E0 0%, #49BEFF 100%);
-    --gradient-success: linear-gradient(135deg, #13DEB9 0%, #02B3A9 100%);
+    /* Os degradês de marca (--gradient-main, -warm, -cool, -success) saíram deste bloco:
+       vivem na seção "DEGRADÊS DE MARCA" logo depois do :root, porque cada um precisa
+       de um @supports próprio para o realce OKLab. */
 
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -65,6 +89,33 @@
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-base: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================
+   DEGRADÊS DE MARCA — sRGB (fallback) + OKLab (realce)
+   ================================
+
+   Derivados dos tokens de cor acima, para não repetir hex. Cada um sai do mixin
+   `gradient-oklab-token` (styles/_gradients.scss), que emite a rampa sRGB no seletor e a
+   rampa OKLab dentro de um @supports — o motivo completo está documentado lá.
+   As PONTAS não mudam: mesmos hex, mesmas razões de contraste
+   (--on-dark-surface continua 7,39:1 na ponta escura e 5,17:1 na clara de --gradient-main).
+
+   Um :root por token: o @supports que o mixin emite fatiaria um bloco compartilhado. */
+:root {
+    @include gradient-oklab-token(--gradient-main, 135deg, var(--primary) 0%, var(--primary-dark) 100%);
+}
+
+:root {
+    @include gradient-oklab-token(--gradient-warm, 135deg, var(--warning) 0%, var(--error) 100%);
+}
+
+:root {
+    @include gradient-oklab-token(--gradient-cool, 135deg, var(--accent) 0%, var(--secondary) 100%);
+}
+
+:root {
+    @include gradient-oklab-token(--gradient-success, 135deg, var(--success) 0%, var(--success-dark) 100%);
 }
 
 * {
