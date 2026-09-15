@@ -3,7 +3,10 @@
     <div class="container">
       <div class="footer-content">
         <div class="brand">
-          <span class="logo-text">2Pets</span>
+          <div class="brand-logo">
+            <img class="logo-mark" :src="brandMarkUrl" width="27" height="28" alt="" aria-hidden="true" decoding="async" />
+            <span class="logo-text">2Pets</span>
+          </div>
           <p>{{ $t('home.hero.subtitle') }}</p>
           <div class="social-links">
             <a href="#" aria-label="Instagram"><span class="material-icons-outlined">photo_camera</span></a>
@@ -51,6 +54,10 @@
   </footer>
 </template>
 
+<script setup>
+import brandMarkUrl from '../assets/brand-mark.png'
+</script>
+
 <style lang="scss" scoped>
 .footer {
   background: white;
@@ -73,12 +80,22 @@
     }
 
     .brand {
+      .brand-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 15px;
+      }
+
+      .logo-mark {
+        display: block;
+      }
+
       .logo-text {
         font-size: 1.5rem;
         font-weight: 800;
         color: var(--primary);
         display: block;
-        margin-bottom: 15px;
       }
 
       p {

@@ -24,7 +24,8 @@ useHead({
   meta: [
     { name: 'description', content: 'Encontre veterinários, clínicas e petshops próximos a você. Agende consultas, gerencie a saúde do seu pet e receba lembretes de vacina. A plataforma #1 para tutores pet no Brasil.' },
     // Cópia manual de --primary (src/styles/main.scss); meta tag não lê token CSS.
-    { name: 'theme-color', content: '#3D63E0' },
+    // Mesmo valor de 2pets-app/index.html e boot/capacitor.js — paridade app<->site.
+    { name: 'theme-color', content: '#0B7F8C' },
     { property: 'og:type', content: 'website' },
     { property: 'og:site_name', content: '2pets' },
     { property: 'og:locale', content: 'pt_BR' },

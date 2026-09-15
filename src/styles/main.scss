@@ -1,81 +1,129 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* Tema "Colo" (2026-09-12): Outfit nos titulos, Figtree na interface. Substituem
+   Plus Jakarta Sans + Inter. Tem que bater com 2pets-app/src/css/design-system.scss
+   e com 2pets-app/index.html - divergencia entre site e app e bug de identidade de marca. */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Figtree:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Outlined');
 
 // Mixins de degradê (só declaração, zero CSS emitido) — ver styles/_gradients.scss.
 @import './gradients';
 
 :root {
-    /* Primary Colors - 2pets official palette
-       ⚠️ CÓPIA MANUAL de 2pets-app/src/css/design-system.scss. O site não importa os tokens
-       do app; nada avisa quando os dois divergem. Paleta atual: "Modernize Corrigida"
-       (docs/estudo-cores-2026-09-07.md, Opção 1) — toda troca precisa ser feita nos dois. */
-    --primary: #3D63E0;
-    --primary-dark: #2E4CB8;
-    --primary-light: #ECF2FF;
-    --secondary: #2E9BD6;
-    --secondary-dark: #026AA2;
-    --accent: #00A0BD;
-    --success: #0E9F6E;
-    --success-dark: #0B7A55;
-    --warning: #F5A524;
-    --error: #D92D20;
-    --info: #1570EF;
+    /* Paleta "Colo" (2026-09-12) - arco azul -> menta.
+       ATENCAO: COPIA MANUAL de 2pets-app/src/css/design-system.scss. O site nao importa
+       os tokens do app; nada avisa quando os dois divergem. Toda troca precisa ser feita
+       nos dois arquivos na MESMA tarefa.
 
-    /* Pares "on-color": tinta de texto/ícone sobre o PREENCHIMENTO de cada cor.
-       ⚠️ CÓPIA MANUAL de --color-*-contrast em 2pets-app/src/css/theme-variables.scss.
-       Branco não serve para todos: sobre --warning dá 2,04:1 e sobre --success 3,39:1;
-       por isso os tons claros levam tinta escura. O site não tem tema escuro, então aqui
-       só existem os valores do tema claro — no app estes tokens invertem no dark. */
-    --primary-contrast: #ffffff;    /* 5,17:1 sobre --primary */
-    --secondary-contrast: #101B2E;  /* 5,56:1 sobre --secondary (branco: 3,10:1) */
-    --accent-contrast: #101B2E;     /* 5,55:1 sobre --accent    (branco: 3,11:1) */
-    --success-contrast: #101B2E;    /* 5,09:1 sobre --success   (branco: 3,39:1) */
-    --warning-contrast: #101B2E;    /* 8,45:1 sobre --warning   (branco: 2,04:1) */
-    --error-contrast: #ffffff;      /* 4,83:1 sobre --error */
-    --info-contrast: #ffffff;       /* 4,57:1 sobre --info */
-    /* Tinta sobre superfície escura fixa (gradiente institucional --gradient-main):
-       7,39:1 na ponta escura, 5,17:1 na clara. */
+       Ceu e menta sao a MARCA (gradiente e tint) e nunca viram fundo de botao - nenhum
+       dos dois segura texto branco. Quem clica e o teal. */
+    --brand-sky: #58D5FD;
+    --brand-mint: #86EFCF;
+    --navy: #0B3A52;
+
+    --primary: #0B7F8C;
+    --primary-dark: #0A658C;
+    --primary-light: #E6F8F4;
+    --secondary: #0A658C;
+    --secondary-dark: #083F5C;
+    --accent: #0E8F73;
+    --accent-dark: #0B7259;
+    --success: #15803D;
+    --success-dark: #106932;
+    --warning: #7A35DE;
+    /* Rating (estrela/nota) - token a parte de warning: estrela nao e aviso. COPIA MANUAL
+       de $rating em 2pets-app/src/css/design-system.scss. Nao tem --rating-light aqui:
+       nenhuma tela do site usa fundo tonal de estrela, so o icone. */
+    --rating: #946A00;
+    --error: #B91C1C;
+    --info: #0A658C;
+
+    /* Tints de fundo (avatar sem foto, placeholder de card, icone de categoria) */
+    --tint-sky: #CFF2FE;
+    --tint-mint: #DFF7EE;
+    --tint-azure: #E2F4FB;
+    --tint-sea: #E6F8F4;
+    --tint-mist: #EAF6FB;
+
+    /* Pares "on-color": tinta de texto/icone sobre o PREENCHIMENTO de cada cor.
+       COPIA MANUAL de --color-*-contrast em 2pets-app/src/css/theme-variables.scss.
+       Diferenca em relacao a paleta anterior: na Colo TODAS as semanticas sao escuras o
+       bastante para carregar branco (o antigo --warning #F5A524 dava 2,04:1 e exigia
+       tinta escura). O site nao tem tema escuro, entao aqui so existem os valores claros. */
+    --primary-contrast: #ffffff;    /* 4,74:1 sobre --primary */
+    --secondary-contrast: #ffffff;  /* 6,45:1 sobre --secondary */
+    --accent-contrast: #ffffff;     /* 4,04:1 - so icone e texto grande. Ver aviso abaixo. */
+    --success-contrast: #ffffff;    /* 5,02:1 sobre --success */
+    --warning-contrast: #ffffff;    /* 6,19:1 sobre --warning */
+    --error-contrast: #ffffff;      /* 6,47:1 sobre --error */
+    --info-contrast: #ffffff;       /* 6,45:1 sobre --info */
+    /* ATENCAO: --accent (#0E8F73) tem luminancia media: branco por cima da 4,04:1 e navy
+       2,98:1 - nenhum dos dois alcanca AA. E cor de ICONE, faixa e numero grande (limiar
+       3:1), nunca preenchimento de botao com texto pequeno. Para menta que carrega TEXTO,
+       use --accent-dark (5,89:1 sobre branco). */
+
+    /* Tinta sobre o gradiente institucional --gradient-main (navy -> teal), escuro nas
+       duas pontas: branco da 13,4:1 na ponta navy e 4,5:1 na ponta teal. */
     --on-dark-surface: #ffffff;
+    --on-dark-surface-soft: #BFF0E2;  /* texto de apoio sobre o header escuro */
+    /* Tinta sobre o gradiente de MARCA --gradient-brand (ceu -> menta), claro nas duas
+       pontas - por isso a tinta e escura: navy, 8,9:1 sobre a menta e 5,7:1 sobre o ceu. */
+    --on-brand-gradient: #0B3A52;
 
     /* RGB tuples (para uso com rgba(var(--primary-rgb), alpha))
-       São literais em decimal: recalcular SEMPRE que o hex acima mudar, senão todo fundo
+       Sao literais em decimal: recalcular SEMPRE que o hex acima mudar, senao todo fundo
        tonal continua na cor antiga sem nenhum aviso. */
-    --primary-rgb: 61, 99, 224;     /* #3D63E0 */
-    --secondary-rgb: 46, 155, 214;  /* #2E9BD6 */
-    --accent-rgb: 0, 160, 189;      /* #00A0BD */
-    --success-rgb: 14, 159, 110;    /* #0E9F6E */
-    --warning-rgb: 245, 165, 36;    /* #F5A524 */
-    --error-rgb: 217, 45, 32;       /* #D92D20 */
+    --primary-rgb: 11, 127, 140;    /* #0B7F8C */
+    --secondary-rgb: 10, 101, 140;  /* #0A658C */
+    --accent-rgb: 14, 143, 115;     /* #0E8F73 */
+    --success-rgb: 21, 128, 61;     /* #15803D */
+    --warning-rgb: 122, 53, 222;    /* #7A35DE */
+    --error-rgb: 185, 28, 28;       /* #B91C1C */
+    --brand-sky-rgb: 88, 213, 253;  /* #58D5FD */
+    --brand-mint-rgb: 134, 239, 207;/* #86EFCF */
+    --navy-rgb: 11, 58, 82;         /* #0B3A52 */
 
-    /* Text Colors - alinhados com app */
-    --text-main: #2A3547;
-    --text-secondary: #5A6A85;
-    --text-light: #64748B;  /* era #7C8FAC (3,29:1) — 4,50:1 sobre --bg-secondary (AA) */
-    --text-muted: #A6B7D4;
+    /* Text Colors — alinhados com app (neutros com viés de menta, não cinza puro) */
+    --text-main: #0F2B2E;       /* 14,30:1 sobre --bg-secondary */
+    --text-secondary: #47635F;  /* 6,25:1 */
+    /* ⚠️ Este NÃO é o --color-text-tertiary do app (#8BA5A0): aquele dá 2,49:1 e lá fica
+       reservado a placeholder. No site este token carrega texto de apoio que precisa ser
+       LIDO, então recebe um valor próprio que passa AA: 4,60:1 sobre --bg-secondary. */
+    --text-light: #5B7772;
+    --text-muted: #A8BFBA;      /* decoração e desabilitado, não texto a ser lido */
 
-    /* Background Colors - alinhados com app */
+    /* Background Colors — alinhados com app */
     --bg-primary: #ffffff;
-    --bg-secondary: #F6F9FC;
-    --bg-tertiary: #F3F6F9;
+    /* Mesmo valor do $background do app. Nao escureca: --primary como texto sobre este
+       fundo fica em 4,54:1, e qualquer degrau mais escuro reprova AA. */
+    --bg-secondary: #F6FBFA;
+    --bg-tertiary: #EFF9F7;
+    --border: #DBEAE6;
 
     /* Os degradês de marca (--gradient-main, -warm, -cool, -success) saíram deste bloco:
        vivem na seção "DEGRADÊS DE MARCA" logo depois do :root, porque cada um precisa
        de um @supports próprio para o realce OKLab. */
 
-    /* Shadows */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    /* Shadows - "nevoa", tingida de navy, igual ao app. Preto puro e frio e some no
+       fundo mentado; o principio do tema e separar com fundo lavado + 1px de borda, e
+       reservar a sombra para o que realmente flutua. */
+    --shadow-sm: 0 1px 2px rgba(11, 58, 82, 0.04), 0 2px 8px -2px rgba(11, 58, 82, 0.08);
+    --shadow-md: 0 1px 2px rgba(11, 58, 82, 0.04), 0 4px 14px -4px rgba(11, 58, 82, 0.10);
+    --shadow-lg: 0 2px 6px rgba(11, 58, 82, 0.05), 0 12px 32px -12px rgba(11, 58, 82, 0.18);
+    --shadow-xl: 0 2px 8px rgba(11, 58, 82, 0.06), 0 18px 40px -14px rgba(11, 58, 82, 0.22);
+    --shadow-2xl: 0 6px 16px rgba(11, 58, 82, 0.08), 0 40px 72px -22px rgba(11, 58, 82, 0.30);
 
-    /* Border Radius */
-    --radius-sm: 0.375rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-    --radius-xl: 1rem;
-    --radius-2xl: 1.5rem;
+    /* Border Radius - canto macio, um degrau acima do Modernize (era 6/8/12/16/24) */
+    --radius-sm: 0.375rem;   /* 6px  - badge */
+    --radius-md: 0.625rem;   /* 10px - campo e botao */
+    --radius-lg: 0.875rem;   /* 14px - card */
+    --radius-xl: 1.125rem;   /* 18px - painel */
+    --radius-2xl: 1.5rem;    /* 24px - hero */
     --radius-full: 9999px;
+
+    /* Raio de FOTO. Toda foto e quadrada de canto macio, nunca circulo - circulo corta
+       orelha de gato e focinho de cachorro, que e o que identifica o bicho. */
+    --radius-photo-sm: 0.75rem;   /* 12px */
+    --radius-photo-md: 1rem;      /* 16px */
+    --radius-photo-lg: 1.375rem;  /* 22px */
 
     /* Spacing */
     --spacing-xs: 0.5rem;
@@ -103,15 +151,23 @@
 
    Um :root por token: o @supports que o mixin emite fatiaria um bloco compartilhado. */
 :root {
-    @include gradient-oklab-token(--gradient-main, 135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    /* Institucional: navy -> teal. Hero, header, faixa de CTA. Tinta: --on-dark-surface,
+       apoio --on-dark-surface-soft. E o mesmo --primary-gradient do app. */
+    @include gradient-oklab-token(--gradient-main, 135deg, var(--navy) 0%, #0C7F86 100%);
 }
 
 :root {
-    @include gradient-oklab-token(--gradient-warm, 135deg, var(--warning) 0%, var(--error) 100%);
+    /* MARCA: ceu -> menta. O objeto de identidade do produto (a carteirinha do pet no
+       app). Tinta: --on-brand-gradient (navy). E o mesmo --brand-gradient do app.
+       Substituiu --gradient-warm (laranja -> vermelho), que nao tinha uso em nenhuma
+       pagina e destoava por inteiro do arco azul-menta. */
+    @include gradient-oklab-token(--gradient-brand, 135deg, var(--brand-sky) 0%, var(--brand-mint) 100%);
 }
 
 :root {
-    @include gradient-oklab-token(--gradient-cool, 135deg, var(--accent) 0%, var(--secondary) 100%);
+    /* Tonal claro, para fundo de secao. Substituiu --gradient-cool (accent -> secondary),
+       que tambem nao tinha uso em pagina nenhuma. */
+    @include gradient-oklab-token(--gradient-light, 135deg, var(--tint-sky) 0%, var(--tint-mint) 100%);
 }
 
 :root {
@@ -129,7 +185,7 @@ html {
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     color: var(--text-main);
     background-color: var(--bg-secondary);
     line-height: 1.6;
@@ -143,8 +199,9 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+    font-family: 'Outfit', 'Figtree', sans-serif;
     font-weight: 700;
+    letter-spacing: -0.025em;
     line-height: 1.2;
     color: var(--text-main);
 }
@@ -219,13 +276,17 @@ img {
     }
 
     &.btn-secondary {
-        background: var(--gradient-warm);
-        color: white;
-        box-shadow: var(--shadow-lg);
+        /* Era `--gradient-warm` (laranja → vermelho) com tinta branca e sombra pesada —
+           um botão secundário gritando mais que o primário, e numa cor que não existe
+           mais no arco azul-menta. No tema Colo o secundário é TONAL: fundo lavado da
+           ação e tinta da ação, sem sombra. Ele acompanha o primário sem competir. */
+        background: var(--primary-light);
+        color: var(--primary);
+        box-shadow: none;
 
         &:hover {
             transform: translateY(-2px);
-            box-shadow: var(--shadow-xl);
+            box-shadow: var(--shadow-md);
         }
     }
 

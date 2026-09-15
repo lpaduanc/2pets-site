@@ -2,6 +2,7 @@
   <header class="header" :class="{ 'scrolled': isScrolled }">
     <div class="container header-content">
       <router-link to="/" class="logo">
+        <img class="logo-mark" :src="brandMarkUrl" width="27" height="28" alt="" aria-hidden="true" decoding="async" />
         <span class="logo-text">2Pets</span>
       </router-link>
 
@@ -36,6 +37,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
+import brandMarkUrl from '../assets/brand-mark.png'
 
 const { locale } = useI18n()
 const isScrolled = ref(false)
@@ -84,10 +86,17 @@ onUnmounted(() => {
   }
   
   .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 1.5rem;
     font-weight: 800;
     color: var(--primary);
     text-decoration: none;
+
+    .logo-mark {
+      display: block;
+    }
   }
   
   .nav-menu {

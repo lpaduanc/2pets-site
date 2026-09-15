@@ -312,12 +312,16 @@ function getIcon(key) {
         top: 1.5rem;
         right: 1.5rem;
         padding: 0.375rem 0.875rem;
-        background: var(--gradient-warm);
-        color: white;
+        /* Era --gradient-warm (laranja -> vermelho), removido na troca para o tema Colo:
+           destoava do arco azul-menta e lia como alerta num selo de destaque. O gradiente
+           de MARCA (--gradient-brand, ceu -> menta) nao serve aqui porque e claro nas duas
+           pontas e este selo tem tinta branca; o institucional e escuro e segura branco
+           com folga (13,4:1 na ponta navy, 4,5:1 na teal). */
+        background: var(--gradient-main);
+        color: var(--on-dark-surface);
         border-radius: var(--radius-full);
         font-size: 0.75rem;
         font-weight: 700;
-        text-transform: uppercase;
       }
       
       .icon-wrapper {

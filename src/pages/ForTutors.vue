@@ -100,7 +100,7 @@
         <div class="testimonials-grid">
           <div class="testimonial-card" v-for="(testimonial, index) in testimonials" :key="index">
             <div class="testimonial-rating">
-              <span class="material-icons" v-for="i in 5" :key="i">star</span>
+              <span class="material-icons-outlined" v-for="i in 5" :key="i">star</span>
             </div>
             <p class="testimonial-text">"{{ testimonial.text }}"</p>
             <div class="testimonial-author">
@@ -626,8 +626,8 @@ const testimonials = ref([
         gap: 0.25rem;
         margin-bottom: 1.5rem;
 
-        .material-icons {
-          color: #fbbf24;
+        .material-icons-outlined {
+          color: var(--rating);
           font-size: 1.25rem;
         }
       }

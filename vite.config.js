@@ -9,6 +9,24 @@ const SITE_URL = process.env.VITE_APP_URL || 'https://2pets.com.br'
 export default defineConfig({
   plugins: [vue()],
 
+  server: {
+    /**
+     * Bind mount Windows -> Linux não propaga evento de filesystem, então o watcher
+     * nativo do Vite não vê mudança NENHUMA: o dev server continua servindo o módulo
+     * transformado que tem em cache, e a alteração "não faz efeito" sem nenhum erro.
+     *
+     * O `docker-compose.yml` define CHOKIDAR_USEPOLLING/CHOKIDAR_INTERVAL para este
+     * serviço, mas essas variáveis não fazem nada aqui: quem as lia era o
+     * webpack-dev-server. O chokidar (biblioteca) não lê variável de ambiente — o
+     * Vite precisa da opção explícita abaixo, que é o equivalente ao
+     * `devServer.watch.interval` do `quasar.config.js` no app.
+     */
+    watch: {
+      usePolling: true,
+      interval: 500,
+    },
+  },
+
   // vite-ssg reads this config block to decide what to pre-render.
   ssgOptions: {
     script: 'async',

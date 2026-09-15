@@ -7,16 +7,22 @@
 
         <div class="search-box">
           <input
-            type="text"
+            type="search"
             v-model="searchQuery"
+            aria-label="Buscar por nome, especialidade ou serviço"
+            enterkeyhint="search"
             placeholder="Buscar por nome, especialidade ou serviço"
-            @keyup.enter="performSearch"
+            @keyup.enter="performSearch()"
           />
           <button @click="performSearch" class="btn btn-primary" :disabled="loading">
             <span class="material-icons-outlined">search</span>
             {{ loading ? 'Buscando...' : 'Buscar' }}
           </button>
         </div>
+
+        <p v-if="tooShort" class="search-hint" role="status">
+          Digite ao menos 3 caracteres para buscar.
+        </p>
       </div>
     </section>
 
@@ -43,7 +49,7 @@
       <div class="container">
         <h2 v-if="hasSearched && !loading" class="results-title">
           <template v-if="professionals.length">
-            {{ professionals.length }} {{ professionals.length === 1 ? 'profissional encontrado' : 'profissionais encontrados' }}<template v-if="lastQuery"> para "{{ lastQuery }}"</template>
+            {{ totalFound }} {{ totalFound === 1 ? 'profissional encontrado' : 'profissionais encontrados' }}<template v-if="lastQuery"> para "{{ lastQuery }}"</template>
           </template>
           <template v-else>
             Nenhum profissional encontrado{{ lastQuery ? ` para "${lastQuery}"` : '' }}.
@@ -55,9 +61,19 @@
           Não foi possível carregar os profissionais no momento. Tente novamente em instantes.
         </div>
 
-        <div v-if="loading" class="empty-state">Carregando profissionais…</div>
+        <!-- Só troca a grade por "carregando" quando não há nada a preservar. Com
+             resultado na tela, ele fica visível e esmaecido enquanto a nova busca
+             corre: apagar o conteúdo faz a espera parecer maior do que é. -->
+        <div v-if="loading && !professionals.length" class="empty-state">
+          Carregando profissionais…
+        </div>
 
-        <div v-else class="offers-grid">
+        <div
+          v-else
+          class="offers-grid"
+          :class="{ 'is-refreshing': loading }"
+          :aria-busy="loading"
+        >
           <article
             v-for="pro in professionals"
             :key="pro.id"
@@ -91,6 +107,10 @@
           </article>
         </div>
 
+        <p v-if="totalFound > professionals.length && !loading" class="results-note">
+          Mostrando os {{ professionals.length }} primeiros.
+        </p>
+
         <p v-if="hasSearched && !loading && professionals.length" class="below-results">
           Quer ver todos os detalhes, avaliações e disponibilidade?
           <router-link to="/register">Crie sua conta em 1 minuto.</router-link>
@@ -102,6 +122,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import axios from 'axios'
 import { useHead } from '@unhead/vue'
 
@@ -114,34 +135,90 @@ useHead({
 
 const API_BASE = import.meta.env.VITE_API_BASE_URL
 
+const route = useRoute()
+const router = useRouter()
+
 const searchQuery = ref('')
 const lastQuery = ref('')
 const professionals = ref([])
 const loading = ref(false)
 const hasSearched = ref(false)
+// Quantos casaram com a busca, não quantos couberam na página: `per_page` é 9, e
+// exibir "9 encontrados" para 200 resultados subestima o alcance da plataforma.
+const totalFound = ref(0)
 const error = ref(false)
+const tooShort = ref(false)
+
+// O parâmetro da API é `query` — `SearchController::validateSearchRequest()` não
+// conhece `q`, e Laravel simplesmente descarta o que não valida. O site vinha
+// enviando `q`: TODA busca voltava a lista inteira, como se nada tivesse sido
+// digitado. Mesmo sintoma relatado no app ("busquei e veio o que não devia").
+const QUERY_PARAM = 'query'
+
+// `SearchFiltersDTO` rejeita termo com menos de 3 caracteres (422): o índice
+// trigram do pg_trgm não fecha um trigrama abaixo disso.
+const MINIMUM_QUERY_LENGTH = 3
+
+// Só a resposta do disparo mais recente pode escrever na lista — sem isso uma
+// resposta lenta da busca anterior sobrescreve a busca nova.
+let latestRequestId = 0
+
+/**
+ * O termo vem da URL na entrada. Sem isto, quem chega por link com busca
+ * (campanha, compartilhamento, resultado de pesquisa) recebia o catálogo inteiro: o
+ * campo era semeado vazio e a única chamada saía sem `query`.
+ *
+ * LÊ `query` e `q`: `query` é o nome do parâmetro da API e já circula em links;
+ * `q` é o que o app do 2pets escreve. ESCREVE sempre `q`, para o link do site e o do
+ * app terem o mesmo formato — um usuário não deveria conseguir dizer, pela URL, qual
+ * dos dois frontends a gerou.
+ */
+function readTermFromUrl() {
+  const raw = route.query.query ?? route.query.q
+  return typeof raw === 'string' ? raw.trim() : ''
+}
+
+/**
+ * `replace`, não `push`: a busca do site é uma ação na mesma página, e empilhar uma
+ * entrada por busca faria o botão voltar percorrer termos antigos em vez de sair da
+ * página. Aqui não há debounce a considerar — esta tela só busca no Enter/clique.
+ */
+function writeTermToUrl(term) {
+  router.replace({ query: term ? { q: term } : {} }).catch(() => {})
+}
 
 async function performSearch() {
-  const q = searchQuery.value.trim()
-  lastQuery.value = q
-  await fetchProfessionals({ q })
+  const term = searchQuery.value.trim()
+  if (term.length > 0 && term.length < MINIMUM_QUERY_LENGTH) {
+    tooShort.value = true
+    return
+  }
+  tooShort.value = false
+  lastQuery.value = term
+  writeTermToUrl(term)
+  await fetchProfessionals(term ? { [QUERY_PARAM]: term } : {})
 }
 
 async function fetchProfessionals(params = {}) {
+  const requestId = ++latestRequestId
   loading.value = true
   error.value = false
   try {
     const { data } = await axios.get(`${API_BASE}/public/search`, {
       params: { per_page: 9, ...params },
     })
+    if (requestId !== latestRequestId) return
     // SearchController returns a cursor-paginated collection — adapt both shapes.
     professionals.value = data.data ?? data.items ?? data.results ?? []
+    totalFound.value = data.meta?.total ?? professionals.value.length
     hasSearched.value = true
   } catch {
+    if (requestId !== latestRequestId) return
     error.value = true
     professionals.value = []
+    totalFound.value = 0
   } finally {
-    loading.value = false
+    if (requestId === latestRequestId) loading.value = false
   }
 }
 
@@ -167,7 +244,16 @@ function truncate(text, max) {
 }
 
 onMounted(() => {
-  // Show featured professionals on first load so the page isn't empty.
+  searchQuery.value = readTermFromUrl()
+
+  if (searchQuery.value.length >= MINIMUM_QUERY_LENGTH) {
+    performSearch()
+    return
+  }
+
+  // Termo curto demais na URL não vira 422 nem página vazia: avisa e mostra os
+  // destaques, que é o que a página faz quando não há busca.
+  tooShort.value = searchQuery.value.length > 0
   fetchProfessionals().then(() => (hasSearched.value = false))
 })
 </script>
@@ -195,6 +281,13 @@ onMounted(() => {
     margin-bottom: 40px;
   }
   
+  .search-hint {
+    max-width: 600px;
+    margin: 12px auto 0;
+    font-size: 0.95rem;
+    color: var(--on-dark-surface-soft);
+  }
+
   .search-box {
     max-width: 600px;
     margin: 0 auto;
@@ -263,11 +356,22 @@ onMounted(() => {
     margin-bottom: 30px;
     color: var(--text-main);
   }
+
+  .results-note {
+    margin: 24px 0 0;
+    color: var(--text-secondary);
+  }
   
   .offers-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
+    transition: opacity 0.15s ease;
+
+    &.is-refreshing {
+      opacity: 0.55;
+      pointer-events: none;
+    }
     
     .offer-card {
       background: white;
@@ -363,7 +467,7 @@ onMounted(() => {
 
           span.material-icons-outlined {
             font-size: 18px;
-            color: var(--warning);
+            color: var(--rating);
           }
 
           .reviews-count { color: var(--text-light); }
